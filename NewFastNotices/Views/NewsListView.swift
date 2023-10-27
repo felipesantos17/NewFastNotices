@@ -16,8 +16,8 @@ final class NewsListView: UIView {
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         label.textAlignment = .center
-        label.textColor = .purple
-        label.text = "Pasteis de frango"
+        label.textColor = UIColorFromRGB(rgbValue: 0x255CF5)
+        label.text = "Fast News Now"
         return label
     }()
     
@@ -50,7 +50,7 @@ final class NewsListView: UIView {
     }
     
     private func configBackGround(){
-        self.backgroundColor = .white
+        self.backgroundColor = .lightGray // UIColorFromRGB(rgbValue: 0xF5E5AB)
     }
     
     private func addTableView() {
@@ -65,10 +65,20 @@ final class NewsListView: UIView {
             self.newsListLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             self.newsListLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
             
-            self.newsListTableView.topAnchor.constraint(equalTo: self.newsListLabel.bottomAnchor, constant: 10),
-            self.newsListTableView.leftAnchor.constraint(equalTo: self.newsListLabel.leftAnchor),
-            self.newsListTableView.rightAnchor.constraint(equalTo: self.newsListLabel.rightAnchor),
+            self.newsListTableView.topAnchor.constraint(equalTo: self.newsListLabel.bottomAnchor, constant: 18),
+            self.newsListTableView.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor),
+            self.newsListTableView.rightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.rightAnchor),
             self.newsListTableView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
+}
+
+
+public func UIColorFromRGB(rgbValue: UInt) -> UIColor {
+    return UIColor(
+        red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+        green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+        blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+        alpha: CGFloat(1.0)
+    )
 }

@@ -52,12 +52,16 @@ class NewsTableViewCell: UITableViewCell {
     lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.textColor = .darkGray
         return label
     }()
     
     lazy var authorLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        label.textColor = .darkGray
         return label
     }()
     
@@ -79,6 +83,8 @@ class NewsTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        label.textColor = UIColorFromRGB(rgbValue: 0x255CF5)
         return label
     }()
     
@@ -86,6 +92,8 @@ class NewsTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        label.textColor = .gray
         return label
     }()
     
@@ -101,7 +109,7 @@ class NewsTableViewCell: UITableViewCell {
         stack.spacing = 4
         return stack
     }()
-
+    
     lazy var newsImageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -115,15 +123,14 @@ class NewsTableViewCell: UITableViewCell {
         ])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .horizontal
-//        stack.alignment = .fill
-//        stack.distribution = .equalSpacing
-//        stack.spacing = 4
         return stack
     }()
     
     lazy var dateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.textColor = .gray
         return label
     }()
     
