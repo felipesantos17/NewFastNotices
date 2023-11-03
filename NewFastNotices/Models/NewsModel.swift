@@ -7,6 +7,12 @@
 
 import Foundation
 
+struct NewsModelResponse: Codable {
+    let status: String?
+    let totalResults: Int?
+    let articles: [NewsModel]?
+}
+
 struct NewsModel: Codable {
     var source: SourceModel
     var author: String?
