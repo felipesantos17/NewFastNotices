@@ -13,7 +13,7 @@ class NewsListViewController: UIViewController {
     private var newsListView: NewsListView?
     private var newsList: [NewsModel]? {
         didSet {
-            self.newsListView?.updateTableView()
+            self.newsListView?.updateCollectionView()
         }
     }
 
@@ -24,7 +24,7 @@ class NewsListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.newsListView?.configTableViewPotocols(delegate: self, dataSource: self)
+        self.newsListView?.configCollectionViewPotocol(dataSource: self)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -50,26 +50,18 @@ extension NewsListViewController: NewsListLocalDataProviderProtocol {
     }
 }
 
-extension NewsListViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print(indexPath.row)
-    }
-    
-}
-
-extension NewsListViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension NewsListViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.newsList?.count ?? 0
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell: NewsCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionViewCell.identifier, for: indexPath) as? NewsCollectionViewCell,
+              let newsList else { return UICollectionViewCell() }
         
-        guard let cell: NewsTableViewCell = tableView.dequeueReusableCell(withIdentifier: NewsTableViewCell.identifier, for: indexPath) as? NewsTableViewCell else { return UITableViewCell() }
-
-        guard let newsList else { return UITableViewCell() }
         cell.news = newsList[indexPath.row]
-
+        
         return cell
+        
     }
 }

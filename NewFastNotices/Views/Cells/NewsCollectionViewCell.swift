@@ -1,5 +1,5 @@
 //
-//  NewsTableViewCell.swift
+//  NewsCollectionViewCell.swift
 //  NewFastNotices
 //
 //  Created by Felipe Santos on 15/10/23.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NewsTableViewCell: UITableViewCell {
+class NewsCollectionViewCell: UICollectionViewCell {
     
     static let identifier: String = "NewsTableViewCell"
     
@@ -18,7 +18,7 @@ class NewsTableViewCell: UITableViewCell {
             self.titleLabel.text = news?.title
             self.descriptionLabel.text = news?.description
             self.newsImageView.loadImage(from: news?.urlToImage)
-            self.dateLabel.text = news?.publishedAt.toString()
+            self.newsDateLabel.text = news?.publishedAt.toString()
         }
     }
     
@@ -100,7 +100,7 @@ class NewsTableViewCell: UITableViewCell {
     lazy var newsContentStackView: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [
             newsImageView,
-            newsDateAndLinkStackView
+            newsDateAndLinkButtonStackView
         ])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
@@ -116,17 +116,20 @@ class NewsTableViewCell: UITableViewCell {
         return image
     }()
     
-    lazy var newsDateAndLinkStackView: UIStackView = {
+    lazy var newsDateAndLinkButtonStackView: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [
-            dateLabel,
-            newsLinkImageView
+            newsDateLabel,
+            newsLinkButton
         ])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .horizontal
+        stack.alignment = .fill
+        stack.distribution = .fill
+        stack.spacing = 16
         return stack
     }()
     
-    lazy var dateLabel: UILabel = {
+    lazy var newsDateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 12)
@@ -134,21 +137,28 @@ class NewsTableViewCell: UITableViewCell {
         return label
     }()
     
-    lazy var newsLinkImageView: UIImageView = {
-        let image = UIImageView(image: UIImage(systemName: "link.badge.plus"))
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.contentMode = .scaleAspectFit
-        return image
+    lazy var newsLinkButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "link.badge.plus"), for: .normal)
+        button.contentMode = .scaleAspectFit
+        button.addTarget(self, action: #selector(openLink), for: .touchUpInside)
+        return button
     }()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         self.configureView()
         self.setUpConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc private func openLink() {
+        guard let url = news?.url, let url = URL(string: url) else { return }
+        UIApplication.shared.open(url)
     }
     
     private func configureView() {
@@ -158,55 +168,14 @@ class NewsTableViewCell: UITableViewCell {
     private func setUpConstraints() {
         NSLayoutConstraint.activate([
             self.newsStackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 12),
-            self.newsStackView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 12),
-            self.newsStackView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -12),
+            self.newsStackView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 24),
+            self.newsStackView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -24),
             self.newsStackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -12),
             
             self.newsImageView.heightAnchor.constraint(equalToConstant: 240),
             
-            self.newsLinkImageView.widthAnchor.constraint(equalToConstant: 24),
-            self.newsLinkImageView.heightAnchor.constraint(equalToConstant: 24)
+            self.newsLinkButton.widthAnchor.constraint(equalToConstant: 24),
+            self.newsLinkButton.heightAnchor.constraint(equalToConstant: 24)
         ])
-    }
-}
-
-extension UIImageView {
-    
-    func downloadImage(form url: URL, contentMode mode: ContentMode = .scaleAspectFit) {
-        contentMode = mode
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard
-                let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
-                let mineType = response?.mimeType, mineType.hasPrefix("image"),
-                let data, error == nil,
-                let image = UIImage(data: data)
-            else {
-                DispatchQueue.main.async { [weak self] in
-                    self?.image = UIImage(named: "deafult-image.jpg")
-                }
-                return
-            }
-            
-            DispatchQueue.main.async { [weak self] in
-                self?.image = image
-            }
-        }.resume()
-    }
-    
-    func loadImage(from link: String?, contentMode mode: ContentMode = .scaleAspectFit) {
-        guard let link, let url = URL(string: link) else {
-            self.image = UIImage(named: "deafult-image.jpg")
-            return
-        }
-        downloadImage(form: url, contentMode: mode)
-    }
-}
-
-extension Date {
-    
-    func toString(with formatter: String = "dd/MM/yyyy") -> String? {
-        let dateFormat = DateFormatter()
-        dateFormat.dateFormat = formatter
-        return dateFormat.string(from: self)
     }
 }

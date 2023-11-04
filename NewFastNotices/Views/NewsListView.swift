@@ -21,18 +21,17 @@ final class NewsListView: UIView {
         return label
     }()
     
-    lazy var newsListTableView: UITableView = {
-        let tableView = UITableView()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.separatorStyle = .none
-        tableView.register(NewsTableViewCell.self, forCellReuseIdentifier: NewsTableViewCell.identifier)
-        return tableView
+    lazy var newsListCollectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.register(NewsCollectionViewCell.self, forCellWithReuseIdentifier: NewsCollectionViewCell.identifier)
+        return collectionView
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.configBackGround()
-        self.addTableView()
+        self.addCollectionView()
         self.setUpConstraints()
     }
     
@@ -40,22 +39,21 @@ final class NewsListView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configTableViewPotocols(delegate: UITableViewDelegate, dataSource: UITableViewDataSource) {
-        self.newsListTableView.delegate = delegate
-        self.newsListTableView.dataSource = dataSource
+    func configCollectionViewPotocol(dataSource: UICollectionViewDataSource) {
+        newsListCollectionView.dataSource = dataSource
     }
     
-    func updateTableView() {
-        self.newsListTableView.reloadData()
+    func updateCollectionView() {
+        newsListCollectionView.reloadData()
     }
     
     private func configBackGround(){
-        self.backgroundColor = .lightGray // UIColorFromRGB(rgbValue: 0xF5E5AB)
+        backgroundColor = .lightGray // UIColorFromRGB(rgbValue: 0xF5E5AB)
     }
     
-    private func addTableView() {
-        self.addSubview(self.newsListLabel)
-        self.addSubview(self.newsListTableView)
+    private func addCollectionView() {
+        addSubview(newsListLabel)
+        addSubview(newsListCollectionView)
     }
     
     private func setUpConstraints() {
@@ -65,11 +63,21 @@ final class NewsListView: UIView {
             self.newsListLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             self.newsListLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
             
-            self.newsListTableView.topAnchor.constraint(equalTo: self.newsListLabel.bottomAnchor, constant: 18),
-            self.newsListTableView.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor),
-            self.newsListTableView.rightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.rightAnchor),
-            self.newsListTableView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
+            self.newsListCollectionView.topAnchor.constraint(equalTo: self.newsListLabel.bottomAnchor, constant: 18),
+            self.newsListCollectionView.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor),
+            self.newsListCollectionView.rightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.rightAnchor),
+            self.newsListCollectionView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    private func createLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(200.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(200.0))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [ item ])
+        let section = NSCollectionLayoutSection(group: group)
+
+        return UICollectionViewCompositionalLayout(section: section)
     }
 }
 
