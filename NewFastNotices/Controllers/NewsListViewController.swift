@@ -24,7 +24,7 @@ class NewsListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.newsListView?.configCollectionViewPotocol(dataSource: self)
+        self.newsListView?.configCollectionViewPotocol(delegate: self, dataSource: self)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -47,6 +47,15 @@ extension NewsListViewController: NewsListLocalDataProviderProtocol {
     
     func errorData(_ provide: GenericDataProvider?, error: Error) {
         print("Error: \(error.localizedDescription)")
+    }
+}
+
+extension NewsListViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let newsViewController = NewsViewController()
+        newsViewController.selectedNews(newsList?[indexPath.row])
+        self.navigationController?.pushViewController(newsViewController, animated: true)
     }
 }
 

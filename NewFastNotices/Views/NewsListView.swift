@@ -16,8 +16,8 @@ final class NewsListView: UIView {
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         label.textAlignment = .center
-        label.textColor = UIColorFromRGB(rgbValue: 0x255CF5)
-        label.text = "Fast News Now"
+        label.textColor = .white
+        label.text = "Fast News Now".uppercased()
         return label
     }()
     
@@ -39,7 +39,8 @@ final class NewsListView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configCollectionViewPotocol(dataSource: UICollectionViewDataSource) {
+    func configCollectionViewPotocol(delegate: UICollectionViewDelegate, dataSource: UICollectionViewDataSource) {
+        newsListCollectionView.delegate = delegate
         newsListCollectionView.dataSource = dataSource
     }
     
@@ -48,7 +49,7 @@ final class NewsListView: UIView {
     }
     
     private func configBackGround(){
-        backgroundColor = .lightGray // UIColorFromRGB(rgbValue: 0xF5E5AB)
+        backgroundColor = UIColorFromRGB(rgbValue: 0x255CF5) // UIColorFromRGB(rgbValue: 0xF5E5AB)
     }
     
     private func addCollectionView() {
@@ -74,19 +75,9 @@ final class NewsListView: UIView {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(200.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(200.0))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [ item ])
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
 
         return UICollectionViewCompositionalLayout(section: section)
     }
-}
-
-
-public func UIColorFromRGB(rgbValue: UInt) -> UIColor {
-    return UIColor(
-        red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
-        green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
-        blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
-        alpha: CGFloat(1.0)
-    )
 }
