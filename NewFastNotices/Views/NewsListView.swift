@@ -32,7 +32,7 @@ final class NewsListView: UIView {
         super.init(frame: frame)
         self.configBackGround()
         self.addCollectionView()
-        self.setUpConstraints()
+        self.setupConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -49,7 +49,7 @@ final class NewsListView: UIView {
     }
     
     private func configBackGround(){
-        backgroundColor = UIColorFromRGB(rgbValue: 0x255CF5) // UIColorFromRGB(rgbValue: 0xF5E5AB)
+        backgroundColor = .primaryColor
     }
     
     private func addCollectionView() {
@@ -57,7 +57,7 @@ final class NewsListView: UIView {
         addSubview(newsListCollectionView)
     }
     
-    private func setUpConstraints() {
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             
             self.newsListLabel.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),

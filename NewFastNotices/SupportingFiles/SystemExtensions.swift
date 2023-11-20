@@ -38,7 +38,7 @@ extension UIImageView {
         }.resume()
     }
     
-    func loadImage(from link: String?, contentMode mode: ContentMode = .scaleAspectFit) {
+    func loadImage(from link: String?, contentMode mode: ContentMode = .scaleToFill) {
         contentMode = mode
         guard let link, let url = URL(string: link) else {
             self.image = UIImage(named: "deafult-image.jpg")
@@ -61,6 +61,16 @@ extension Date {
         }
         dateFormat.dateFormat = formatter
         return dateFormat.string(from: self)
+    }
+}
+
+extension UIColor {
+    static var primaryColor: UIColor {
+        return UIColorFromRGB(rgbValue: 0x255CF5)
+    }
+    
+    static var secondaryColor: UIColor {
+        return UIColorFromRGB(rgbValue: 0xF5E5AB)
     }
 }
 

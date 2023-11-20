@@ -23,6 +23,7 @@
 		8F49ABEC2ADC9FB2004A9E2C /* NewsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F49ABEB2ADC9FB2004A9E2C /* NewsCollectionViewCell.swift */; };
 		8F59C9A42AF9A29500AA18B4 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F59C9A32AF9A29500AA18B4 /* NewsViewController.swift */; };
 		8F59C9A62AF9A2EE00AA18B4 /* NewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F59C9A52AF9A2EE00AA18B4 /* NewsView.swift */; };
+		8F7FC1932B0BB2210044FD50 /* NewsWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7FC1922B0BB2210044FD50 /* NewsWebView.swift */; };
 		8FFB8B4C2ADF8DC300DEAE97 /* deafult-image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8FFB8B4B2ADF8DC300DEAE97 /* deafult-image.jpg */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +46,7 @@
 		8F49ABEB2ADC9FB2004A9E2C /* NewsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCollectionViewCell.swift; sourceTree = "<group>"; };
 		8F59C9A32AF9A29500AA18B4 /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
 		8F59C9A52AF9A2EE00AA18B4 /* NewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsView.swift; sourceTree = "<group>"; };
+		8F7FC1922B0BB2210044FD50 /* NewsWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsWebView.swift; sourceTree = "<group>"; };
 		8FFB8B4B2ADF8DC300DEAE97 /* deafult-image.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "deafult-image.jpg"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -117,6 +119,7 @@
 				8F49ABCD2ADC6C1E004A9E2C /* LaunchScreen.storyboard */,
 				8F49ABE82ADC9323004A9E2C /* NewsListView.swift */,
 				8F59C9A52AF9A2EE00AA18B4 /* NewsView.swift */,
+				8F7FC1922B0BB2210044FD50 /* NewsWebView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -240,6 +243,7 @@
 				8F49ABE52ADC7466004A9E2C /* GenericDataProvider.swift in Sources */,
 				8F49ABE22ADC71CD004A9E2C /* NewsListRepository.swift in Sources */,
 				8F49ABE92ADC9323004A9E2C /* NewsListView.swift in Sources */,
+				8F7FC1932B0BB2210044FD50 /* NewsWebView.swift in Sources */,
 				8F49ABDF2ADC7089004A9E2C /* NewsModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

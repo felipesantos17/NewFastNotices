@@ -38,6 +38,24 @@ class NewsListViewController: UIViewController {
         self.localDataProvider?.delegate = self
         self.localDataProvider?.getNewsList()
     }
+    
+    private func showAlertGoToNews(_ title: String?, _ indexPath: IndexPath) {
+        let newsViewController = NewsViewController()
+        newsViewController.selectedNews(newsList?[indexPath.row])
+        
+        let alert = UIAlertController(title: title, message: "O que deseja fazer com essa notícia?", preferredStyle: .alert)
+        
+        alert.addAction(.init(title: "Ler notícia!", style: .default, handler: { [weak self] _ in
+            newsViewController.openNews(readView: true)
+            self?.navigationController?.pushViewController(newsViewController, animated: true)
+        }))
+        alert.addAction(.init(title: "Abrir notícia!", style: .default, handler: { [weak self] _ in
+            newsViewController.openNews(readView: false)
+            self?.navigationController?.pushViewController(newsViewController, animated: true)
+        }))
+        
+        self.present(alert, animated: true)
+    }
 }
 
 extension NewsListViewController: NewsListLocalDataProviderProtocol {
@@ -53,9 +71,7 @@ extension NewsListViewController: NewsListLocalDataProviderProtocol {
 extension NewsListViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let newsViewController = NewsViewController()
-        newsViewController.selectedNews(newsList?[indexPath.row])
-        self.navigationController?.pushViewController(newsViewController, animated: true)
+        showAlertGoToNews(newsList?[indexPath.row].source.name, indexPath)
     }
 }
 

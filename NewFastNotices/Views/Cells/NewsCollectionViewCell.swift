@@ -84,7 +84,7 @@ class NewsCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-        label.textColor = UIColorFromRGB(rgbValue: 0x255CF5)
+        label.textColor = .primaryColor
         return label
     }()
     
@@ -142,21 +142,29 @@ class NewsCollectionViewCell: UICollectionViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "link.badge.plus"), for: .normal)
         button.contentMode = .scaleAspectFit
-        button.addTarget(self, action: #selector(openLink), for: .touchUpInside)
+        button.tintColor = .primaryColor
         return button
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.configureView()
-        self.setUpConstraints()
+        configureView()
+        setupConstraints()
+        setupButtonAction()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc private func openLink() {
+    private func setupButtonAction() {
+        let action = UIAction { [weak self] _ in
+            self?.openLink()
+        }
+        newsLinkButton.addAction(action, for: .touchUpInside)
+    }
+    
+    private func openLink() {
         guard let url = news?.url, let url = URL(string: url) else { return }
         UIApplication.shared.open(url)
     }
@@ -165,14 +173,14 @@ class NewsCollectionViewCell: UICollectionViewCell {
         addSubview(newsStackView)
     }
     
-    private func setUpConstraints() {
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             self.newsStackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 12),
             self.newsStackView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 24),
             self.newsStackView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -24),
             self.newsStackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -12),
             
-            self.newsImageView.heightAnchor.constraint(equalToConstant: 240),
+            self.newsImageView.heightAnchor.constraint(equalToConstant: 210),
             
             self.newsLinkButton.widthAnchor.constraint(equalToConstant: 24),
             self.newsLinkButton.heightAnchor.constraint(equalToConstant: 24)

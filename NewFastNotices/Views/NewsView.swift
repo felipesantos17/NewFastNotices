@@ -82,7 +82,7 @@ final class NewsView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-        label.textColor = UIColorFromRGB(rgbValue: 0x255CF5)
+        label.textColor = .primaryColor
         return label
     }()
     
@@ -148,7 +148,7 @@ final class NewsView: UIView {
         super.init(frame: frame)
         self.configBackGround()
         self.configureView()
-        self.setUpConstraints()
+        self.setupConstraints()
     }
     
     func setNewsValue(_ news: NewsModel?) {
@@ -175,7 +175,7 @@ final class NewsView: UIView {
         addSubview(newsSelectedStackView)
     }
     
-    private func setUpConstraints() {
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             
             self.newsSelectedStackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
